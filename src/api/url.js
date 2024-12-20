@@ -1,5 +1,5 @@
-export const BASE_URL = "https://1sg5b0hc-7800.inc1.devtunnels.ms/api/admin/";
-export const IMAGE_BASE_URL = "https://1sg5b0hc-7800.inc1.devtunnels.ms/api/business/";
+export const BASE_URL = "http://44.226.18.62:7800/api/admin/";
+export const IMAGE_BASE_URL = "http://44.226.18.62:7800/api/business/";
 
 export const POST_METHOD = "POST";
 export const GET_METHOD = "GET";
