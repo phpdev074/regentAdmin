@@ -1,37 +1,52 @@
 import { useEffect, useState } from 'react';
-import { Package } from '../../types/package';
 import { deleteUser, getUserList } from '../../api/helper';
 import { ShowToast } from '../../helpers/ToastService';
-
-
+import Pagination from '../Pagination';
 
 const TableThree = () => {
 
-  const [info, setInfo]= useState<any>([])
+  const [info, setInfo] = useState<any>([])
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const getUserData = async () => {
-    const response = await getUserList(`?limit=100`)
+  // Function to open the modal
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+
+  // Function to close the modal
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+
+  const getUserData = async (page = 1) => {
+    const response = await getUserList(`?limit=10&page=${page}`)
+    console.log(response.data.data,'===>>>response.data.data')
     setInfo(response.data.data)
   }
 
-  useEffect(()=>{
+  useEffect(() => {
     getUserData()
-  },[])
+  }, [])
 
- const handelDelete =async(id:any)=>{
-  try {
 
-    const confirm = window.confirm("are you sure you want to delete ?")
-    if(confirm){
-      const response = await deleteUser(`?id=${id}`)
-      console.log(response,'==>response')
-      ShowToast(response.data.message, 'success')
-      getUserData()
+  const handlePageChange = (pageNumber: number) => {
+    setCurrentPage(pageNumber);
+    getUserData(pageNumber);
+  };
+
+  const handelDelete = async (id: any) => {
+    try {
+      const confirm = window.confirm("are you sure you want to delete ?")
+      if (confirm) {
+        const response = await deleteUser(`?id=${id}`)
+        ShowToast(response.data.message, 'success')
+        getUserData()
+      }
+    } catch (error) {
+      console.log(error)
     }
-  } catch (error) {
-    console.log(error)
   }
- }
 
 
   return (
@@ -55,13 +70,13 @@ const TableThree = () => {
             </tr>
           </thead>
           <tbody>
-            {info&&(info as any)?.users?.map((packageItem:any, key:any) => (
+            {info && (info as any)?.users?.map((packageItem: any, key: any) => (
               <tr key={key}>
                 <td className="border-b border-[#eee] py-5 px-4 pl-9 dark:border-strokedark xl:pl-11">
                   <h5 className="font-medium text-black dark:text-white">
-                    {packageItem?.name}
+                    {packageItem?.name ?? 'N/A'}
                   </h5>
-                  <p className="text-sm">${packageItem?.name}</p>
+                  {/* <p className="text-sm">${packageItem?.name}</p> */}
                 </td>
                 <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
                   <p className="text-black dark:text-white">
@@ -70,20 +85,19 @@ const TableThree = () => {
                 </td>
                 <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
                   <p
-                    className={`inline-flex rounded-full bg-opacity-10 py-1 px-3 text-sm font-medium ${
-                      packageItem?.status === 'Paid'
+                    className={`inline-flex rounded-full bg-opacity-10 py-1 px-3 text-sm font-medium ${packageItem?.status === 'Paid'
                         ? 'bg-success text-success'
                         : packageItem?.status === 'Unpaid'
-                        ? 'bg-danger text-danger'
-                        : 'bg-warning text-warning'
-                    }`}
+                          ? 'bg-danger text-danger'
+                          : 'bg-warning text-warning'
+                      }`}
                   >
-                    {packageItem?.status}
+                    {packageItem?.status??'N/A'}
                   </p>
                 </td>
                 <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
                   <div className="flex items-center space-x-3.5">
-                    <button className="hover:text-primary"  >
+                    <button className="hover:text-primary" onClick={openModal}  >
                       <svg
                         className="fill-current"
                         width="18"
@@ -102,7 +116,7 @@ const TableThree = () => {
                         />
                       </svg>
                     </button>
-                    <button className="hover:text-primary" onClick={()=>handelDelete(packageItem?._id)} >
+                    <button className="hover:text-primary" onClick={() => handelDelete(packageItem?._id)} >
                       <svg
                         className="fill-current"
                         width="18"
@@ -134,8 +148,64 @@ const TableThree = () => {
               </tr>
             ))}
           </tbody>
+          <div className="flex justify-end mt-4">
+            <Pagination
+              currentPage={currentPage}
+              totalPages={info.totalPages}
+              onPageChange={handlePageChange}
+            />
+          </div>
         </table>
       </div>
+
+      <div>
+  
+      {isModalOpen && (
+        <div
+          className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50"
+          onClick={closeModal}
+        >
+
+          <div
+            className="bg-white dark:bg-gray-800 text-black dark:text-white rounded-lg shadow-lg w-96 p-6 relative"
+            onClick={(e) => e.stopPropagation()} 
+          >
+            <button
+              className="absolute top-2 right-2 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white"
+              onClick={closeModal}
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-6 w-6"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M6 18L18 6M6 6l12 12"
+                />
+              </svg>
+            </button>
+            <h3 className="text-2xl font-semibold text-center mb-4">This is a Modal</h3>
+            <p className="text-center text-gray-600 dark:text-gray-300 mb-6">
+              You can put your content here. This modal can be used for user interactions, forms, etc.
+            </p>
+            <div className="flex justify-center">
+              <button
+                onClick={closeModal}
+                className="px-6 py-2 bg-red-500 text-white rounded-md hover:bg-red-600 dark:bg-red-700 dark:hover:bg-red-600"
+              >
+                Close Modal
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+
     </div>
   );
 };
