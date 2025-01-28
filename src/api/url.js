@@ -12,7 +12,4 @@ export const GET_PROFILE = "getProfile";
 export const UPDATE_PROFILE = "updateProfile";
 export const GET_USER_LIST = "getUserList";
 export const DELETE_USER = "deleteUser";
-
-
-
-
+export const PAYMENT_HISTORY = "paymentHistory";

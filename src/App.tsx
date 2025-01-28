@@ -19,6 +19,7 @@ import DefaultLayout from './layout/DefaultLayout';
 import Login from './pages/Components/Login';
 import { ToastContainer } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
+import Payment from './pages/Components/Payment/Payment';
 
 function App() {
   const [loading, setLoading] = useState<boolean>(true);
@@ -121,6 +122,15 @@ function App() {
               <>
                 <PageTitle title="Business" />
                 <Tables />
+              </>
+            }
+          />
+           <Route
+            path="/payment"
+            element={
+              <>
+                <PageTitle title="Payment" />
+                <Payment />
               </>
             }
           />

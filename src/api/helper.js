@@ -10,7 +10,8 @@ import {
   UPDATE_PROFILE,
   GET_USER_LIST,
   DELETE,
-  DELETE_USER
+  DELETE_USER,
+  PAYMENT_HISTORY
 } from "./url";
 
 export const uploadImage = (payload) => {
@@ -54,6 +55,14 @@ export const getUserList = (query) => {
     baseURL: BASE_URL,
     method: GET_METHOD,
     url: `${GET_USER_LIST}${query?query:""}`,
+  });
+};
+
+export const getPaymetList = (query) => {
+  return apiClient({
+    baseURL: BASE_URL,
+    method: GET_METHOD,
+    url: `${PAYMENT_HISTORY}${query?query:""}`,
   });
 };
 

@@ -8,10 +8,12 @@ const TableThree = () => {
   const [info, setInfo] = useState<any>([])
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [data , setData]= useState<any>()
 
   // Function to open the modal
-  const openModal = () => {
+  const openModal = (value:any) => {
     setIsModalOpen(true);
+    setData(value)
   };
 
   // Function to close the modal
@@ -97,7 +99,7 @@ const TableThree = () => {
                 </td>
                 <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
                   <div className="flex items-center space-x-3.5">
-                    <button className="hover:text-primary" onClick={openModal}  >
+                    <button className="hover:text-primary" onClick={()=>openModal(packageItem)}  >
                       <svg
                         className="fill-current"
                         width="18"
@@ -161,49 +163,97 @@ const TableThree = () => {
       <div>
   
       {isModalOpen && (
-        <div
-          className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50"
-          onClick={closeModal}
+  <div
+    className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50"
+    onClick={closeModal}
+  >
+    <div
+      className="bg-white dark:bg-gray-800 text-black dark:text-white rounded-lg shadow-lg w-96 p-6 relative"
+      onClick={(e) => e.stopPropagation()}
+    >
+      {/* Close Button */}
+      <button
+        className="absolute top-2 right-2 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white"
+        onClick={closeModal}
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          className="h-6 w-6"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
         >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="2"
+            d="M6 18L18 6M6 6l12 12"
+          />
+        </svg>
+      </button>
 
-          <div
-            className="bg-white dark:bg-gray-800 text-black dark:text-white rounded-lg shadow-lg w-96 p-6 relative"
-            onClick={(e) => e.stopPropagation()} 
-          >
-            <button
-              className="absolute top-2 right-2 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white"
-              onClick={closeModal}
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-6 w-6"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M6 18L18 6M6 6l12 12"
-                />
-              </svg>
-            </button>
-            <h3 className="text-2xl font-semibold text-center mb-4">This is a Modal</h3>
-            <p className="text-center text-gray-600 dark:text-gray-300 mb-6">
-              You can put your content here. This modal can be used for user interactions, forms, etc.
-            </p>
-            <div className="flex justify-center">
-              <button
-                onClick={closeModal}
-                className="px-6 py-2 bg-red-500 text-white rounded-md hover:bg-red-600 dark:bg-red-700 dark:hover:bg-red-600"
-              >
-                Close Modal
-              </button>
-            </div>
+      {/* Modal Header */}
+      <h3 className="text-2xl font-semibold text-center mb-4">Business Information</h3>
+
+      {/* Scrollable Content */}
+      <div className="max-h-80 overflow-y-auto mb-6">
+        {/* User Info */}
+        <div className="text-center mb-4">
+          <p className="font-semibold">Business Name</p>
+          <p className="text-gray-600 dark:text-gray-300">{data.businessName}</p>
+        </div>
+        <div className="text-center mb-4">
+          <p className="font-semibold">Contact Number</p>
+          <p className="text-gray-600 dark:text-gray-300">{data.mobileNumber}</p>
+        </div>
+        <div className="text-center mb-4">
+          <p className="font-semibold">Email</p>
+          <p className="text-gray-600 dark:text-gray-300">{data.email}</p>
+        </div>
+        <div className="text-center mb-4">
+          <p className="font-semibold">Business Address</p>
+          <p className="text-gray-600 dark:text-gray-300">{data.businessAddress}</p>
+        </div>
+
+        {/* Additional Business Info */}
+        <div className="text-center mb-4">
+          <p className="font-semibold">Others</p>
+          <p className="text-gray-600 dark:text-gray-300">{data.objectData?.[4]?.others}</p>
+        </div>
+
+        {/* Business Website (if exists) */}
+        {data.website && (
+          <div className="text-center mb-4">
+            <p className="font-semibold">Website</p>
+            <p className="text-gray-600 dark:text-gray-300">{data.website}</p>
           </div>
+        )}
+      </div>
+
+      {/* User Image (If available) */}
+      {data.userImage && (
+        <div className="flex justify-center mb-6">
+          <img
+            src={data.userImage}
+            alt="User QR Code"
+            className="w-24 h-24 rounded-full"
+          />
         </div>
       )}
+
+      {/* Close Button */}
+      <div className="flex justify-center">
+        <button
+          onClick={closeModal}
+          className="px-6 py-2 bg-red-500 text-white rounded-md hover:bg-red-600 dark:bg-red-700 dark:hover:bg-red-600"
+        >
+          Close Modal
+        </button>
+      </div>
+    </div>
+  </div>
+)}
+
     </div>
 
     </div>
