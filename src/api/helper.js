@@ -86,3 +86,13 @@ export const deleteUser = (payload) => {
    
   });
 };
+
+// /api/business/getBusinessDetails?id=${id}
+export const getUserInfoMap = (id) => {
+  // console.log(payload, '==>> data:payload')
+  return apiClient({
+    baseURL: IMAGE_BASE_URL,
+    method: GET_METHOD,
+    url: `/getBusinessDetails?id=${id}`,
+  });
+};

@@ -20,6 +20,7 @@ import Login from './pages/Components/Login';
 import { ToastContainer } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
 import Payment from './pages/Components/Payment/Payment';
+import Info from './pages/Info';
 
 function App() {
   const [loading, setLoading] = useState<boolean>(true);
@@ -39,6 +40,9 @@ function App() {
     <>
       <Routes>
         {/* Login and Signup routes should be outside the DefaultLayout */}
+
+        
+
         <Route
          index
           path="/"
@@ -46,6 +50,18 @@ function App() {
             <>
               <PageTitle title="Login " />
               <Login />
+            </>
+          }
+        />
+        <Route
+        //  index
+          path="/info"
+          element={
+            <>
+              <PageTitle title="Info " />
+              <Info />
+              {/* <h1>asdasdl</h1> */}
+             
             </>
           }
         />
@@ -170,7 +186,9 @@ function App() {
               </>
             }
           />
+
         </Route>
+        
       </Routes>
       <ToastContainer
         position="top-center"
