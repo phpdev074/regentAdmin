@@ -1,112 +1,120 @@
 import React, { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
-import { Marker, GoogleMap, LoadScript } from "@react-google-maps/api";
+import { GoogleMap, LoadScript, MarkerF } from "@react-google-maps/api"; 
 import { getUserInfoMap } from "../api/helper";
 
 interface BusinessData {
-    userImage?: string;
-    businessName: string;
-    name: string;
-    website?: string;
-    email?: string;
-    mobileNumber?: string;
-    businessLic?: string;
-    businessAddress: string;
-    location: {
-        coordinates: [number, number];
-    };
+  userImage?: string;
+  businessName: string;
+  name: string;
+  website?: string;
+  email?: string;
+  mobileNumber?: string;
+  businessLic?: string;
+  businessAddress: string;
+  location: {
+    coordinates: [number, number]; 
+  };
 }
 
 const Info: React.FC = () => {
-    const [searchParams] = useSearchParams();
-    const id = searchParams.get("id");
-    const [infoData, setInfoData] = useState<BusinessData | null>(null);
-    const defaultLocation = { lat: 30.7232768, lng: 76.7000576 };
-    const [defaultCenter, setDefaultCenter] = useState(defaultLocation);
+  const [searchParams] = useSearchParams();
+  const id = searchParams.get("id");
 
-    useEffect(() => {
-        if (id) {
-            getBusinessData();
-        }
-    }, [id]);
+  const [infoData, setInfoData] = useState<BusinessData | null>(null);
 
-    const getBusinessData = async () => {
-        try {
-            const response = await getUserInfoMap(id);
-            setInfoData(response?.data?.data);
-            const data = response?.data?.data?.location?.coordinates;
-            if (data?.length === 2) {
-                setDefaultCenter({ lat: data[1], lng: data[0] });
-            }
-        } catch (error) {
-            console.error("Error fetching business data:", error);
-        }
-    };
+  const [mapCenter, setMapCenter] = useState({
+    lat: 25.60887385572753,
+    lng: 85.1086943808959,
+  });
 
-    if (!infoData) return <div className="text-center text-lg font-semibold">Loading...</div>;
+  useEffect(() => {
+    if (id) {
+      getBusinessData();
+    }
+  }, [id]);
 
-    return (
-        <div className="flex items-center justify-center min-h-screen bg-gray-100">
-            <div className="w-full max-w-lg p-6 bg-white rounded-lg shadow-xl text-center font-sans">
-                {/* Profile Image */}
-                <img
-                    src={infoData?.userImage || "https://via.placeholder.com/80"}
-                    alt="Profile"
-                    className="w-24 h-24 rounded-full mx-auto"
-                />
+  const getBusinessData = async () => {
+    try {
+      const response = await getUserInfoMap(id);
+      const data = response?.data?.data;
+      setInfoData(data);
 
-                <h2 className="text-2xl mt-3 mb-1 font-semibold">{infoData.businessName}</h2>
-                <p className="text-sm text-gray-600 mb-2">Owner at {infoData.name}</p>
+      const coordinates = data?.location?.coordinates;
+      if (coordinates && coordinates.length === 2) {
+        const lat = coordinates[0];
+        const lng = coordinates[1];
+        setMapCenter({ lat, lng });
+      }
+    } catch (error) {
+      console.error("Error fetching business data:", error);
+    }
+  };
 
-                {/* Contact Info */}
-                <div className="text-left space-y-2 my-4">
-                    {infoData.website && (
-                        <div className="flex items-center text-sm">
-                            <span className="mr-2 text-xl">🌐</span>
-                            <a href={infoData.website} target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline">
-                                {infoData.website}
-                            </a>
-                        </div>
-                    )}
-                    {infoData.email && (
-                        <div className="flex items-center text-sm">
-                            <span className="mr-2 text-xl">✉️</span>
-                            {infoData.email}
-                        </div>
-                    )}
-                    {infoData.mobileNumber && (
-                        <div className="flex items-center text-sm">
-                            <span className="mr-2 text-xl">📞</span>
-                            {infoData.mobileNumber}
-                        </div>
-                    )}
-                    {infoData.businessLic && (
-                        <div className="flex items-center text-sm">
-                            <span className="mr-2 text-xl">🆔</span>
-                            {infoData.businessLic}
-                        </div>
-                    )}
-                </div>
+  if (!infoData) return <div className="text-center text-lg font-semibold">Loading...</div>;
 
-                {/* Google Map */}
-                <div className="my-4 w-full h-60 rounded-lg overflow-hidden">
-                    <LoadScript googleMapsApiKey="AIzaSyBTgjMWeFMxL5oe-KFnKts3YGBZJlEC6eM">
-                        <GoogleMap
-                            mapContainerStyle={{ width: '100%', height: '100%' }}
-                            zoom={14}
-                            center={defaultCenter} // Default or updated location
-                        >
-                            <Marker position={defaultCenter} />
-                            <Marker position={defaultLocation} label="Default" /> 
-                        </GoogleMap>
-                    </LoadScript>
-                </div>
+  return (
+    <div className="flex items-center justify-center min-h-screen bg-gray-100">
+      <div className="w-full max-w-lg p-6 bg-white rounded-lg shadow-xl text-center font-sans">
+        <img
+          src={infoData?.userImage || "https://static-00.iconduck.com/assets.00/profile-default-icon-2048x2045-u3j7s5nj.png"}
+          alt="Profile"
+          className="w-24 h-24 rounded-full mx-auto"
+        />
 
-                {/* Address */}
-                <p className="text-sm text-gray-700 my-2">{infoData.businessAddress}</p>
+        <h2 className="text-2xl mt-3 mb-1 font-semibold">{infoData.businessName}</h2>
+        <p className="text-sm text-gray-600 mb-2">Owner at {infoData.name}</p>
+
+        <div className="text-left space-y-2 my-4">
+          {infoData.website && (
+            <div className="flex items-center text-sm">
+              <span className="mr-2 text-xl">🌐</span>
+              <a
+                href={infoData.website}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-blue-500 hover:underline"
+              >
+                {infoData.website}
+              </a>
             </div>
+          )}
+          {infoData.email && (
+            <div className="flex items-center text-sm">
+              <span className="mr-2 text-xl">✉️</span>
+              {infoData.email}
+            </div>
+          )}
+          {infoData.mobileNumber && (
+            <div className="flex items-center text-sm">
+              <span className="mr-2 text-xl">📞</span>
+              {infoData.mobileNumber}
+            </div>
+          )}
+          {infoData.businessLic && (
+            <div className="flex items-center text-sm">
+              <span className="mr-2 text-xl">🆔</span>
+              {infoData.businessLic}
+            </div>
+          )}
         </div>
-    );
+
+        <div className="my-4 w-full h-60 rounded-lg overflow-hidden">
+          <LoadScript googleMapsApiKey="AIzaSyBTgjMWeFMxL5oe-KFnKts3YGBZJlEC6eM">
+            <GoogleMap
+              mapContainerStyle={{ width: "100%", height: "100%" }}
+              zoom={14}
+              center={mapCenter}
+            >
+              <MarkerF position={mapCenter} />
+            </GoogleMap>
+          </LoadScript>
+        </div>
+
+        <p className="text-sm text-gray-700 my-2">{infoData.businessAddress}</p>
+      </div>
+    </div>
+  );
 };
 
 export default Info;

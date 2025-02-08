@@ -4,6 +4,7 @@ import CoverOne from '../images/cover/cover-01.png';
 import userSix from '../images/user/user-06.png';
 import { Link } from 'react-router-dom';
 import { getProfile } from '../api/helper';
+// AIzaSyBTgjMWeFMxL5oe-KFnKts3YGBZJlEC6eM
 
 const Profile = () => {
   const [info, setInfo] = useState<any>()
