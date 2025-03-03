@@ -24,9 +24,11 @@ const Info: React.FC = () => {
   const [infoData, setInfoData] = useState<BusinessData | null>(null);
 
   const [mapCenter, setMapCenter] = useState({
-    lat: 25.60887385572753,
-    lng: 85.1086943808959,
+    lat: 30.7046, // Default: Punjab Coordinates
+    lng: 76.7179,  // Default: Punjab Coordinates
   });
+
+  const [markerVisible, setMarkerVisible] = useState(false); // Control marker visibility
 
   useEffect(() => {
     if (id) {
@@ -41,10 +43,14 @@ const Info: React.FC = () => {
       setInfoData(data);
 
       const coordinates = data?.location?.coordinates;
+
       if (coordinates && coordinates.length === 2) {
-        const lat = coordinates[0];
-        const lng = coordinates[1];
-        setMapCenter({ lat, lng });
+        const lat = coordinates[1];
+        const lng = coordinates[0];
+        setMapCenter({ lat, lng }); 
+        setMarkerVisible(true); 
+      } else {
+        setMarkerVisible(false); 
       }
     } catch (error) {
       console.error("Error fetching business data:", error);
@@ -106,7 +112,7 @@ const Info: React.FC = () => {
               zoom={14}
               center={mapCenter}
             >
-              <MarkerF position={mapCenter} />
+              {markerVisible && <MarkerF position={mapCenter} />} {/* Conditionally render the marker */}
             </GoogleMap>
           </LoadScript>
         </div>
