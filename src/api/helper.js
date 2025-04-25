@@ -11,7 +11,8 @@ import {
   GET_USER_LIST,
   DELETE,
   DELETE_USER,
-  PAYMENT_HISTORY
+  PAYMENT_HISTORY,
+  BUSINESS_LIST
 } from "./url";
 
 export const uploadImage = (payload) => {
@@ -65,6 +66,15 @@ export const getPaymetList = (query) => {
     url: `${PAYMENT_HISTORY}${query?query:""}`,
   });
 };
+
+export const getBusinessList = (query) => {
+  return apiClient({
+    baseURL: BASE_URL,
+    method: GET_METHOD,
+    url: `${BUSINESS_LIST}${query?query:""}`,
+  });
+};
+
 
 
 export const updateProfile = (payload) => {

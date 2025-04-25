@@ -21,6 +21,8 @@ import { ToastContainer } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
 import Payment from './pages/Components/Payment/Payment';
 import Info from './pages/Info';
+import BusinessDetails from './components/Tables/BusinessDetails';
+import Businesses from './components/Tables/Businesses';
 
 function App() {
   const [loading, setLoading] = useState<boolean>(true);
@@ -36,15 +38,15 @@ function App() {
 
   return loading ? (
     <Loader />
-  ) :  (
+  ) : (
     <>
       <Routes>
         {/* Login and Signup routes should be outside the DefaultLayout */}
 
-        
+
 
         <Route
-         index
+          index
           path="/"
           element={
             <>
@@ -54,14 +56,14 @@ function App() {
           }
         />
         <Route
-        //  index
+          //  index
           path="/info"
           element={
             <>
               <PageTitle title="Info " />
               <Info />
               {/* <h1>asdasdl</h1> */}
-             
+
             </>
           }
         />
@@ -141,7 +143,19 @@ function App() {
               </>
             }
           />
-           <Route
+
+          <Route
+            path="/BusinessDetails"
+            element={
+              <>
+                <PageTitle title="Business Details" />
+                <Businesses />
+               
+              </>
+            }
+          />
+
+          <Route
             path="/payment"
             element={
               <>
@@ -188,7 +202,7 @@ function App() {
           />
 
         </Route>
-        
+
       </Routes>
       <ToastContainer
         position="top-center"

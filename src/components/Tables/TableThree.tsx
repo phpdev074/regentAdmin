@@ -2,8 +2,11 @@ import { useEffect, useState } from 'react';
 import { deleteUser, getUserList } from '../../api/helper';
 import { ShowToast } from '../../helpers/ToastService';
 import Pagination from '../Pagination';
+import { useNavigate } from 'react-router-dom';
 
 const TableThree = () => {
+
+  const navigate = useNavigate();
 
   const [info, setInfo] = useState<any>([])
   const [currentPage, setCurrentPage] = useState<number>(1);
@@ -12,8 +15,10 @@ const TableThree = () => {
 
   // Function to open the modal
   const openModal = (value:any) => {
-    setIsModalOpen(true);
-    setData(value)
+    console.log(value,'====>>value');
+    navigate('/businessDetails', {
+      state: value,
+    });
   };
 
   // Function to close the modal
@@ -23,7 +28,6 @@ const TableThree = () => {
 
   const getUserData = async (page = 1) => {
     const response = await getUserList(`?limit=10&page=${page}`)
-    console.log(response.data.data,'===>>>response.data.data')
     setInfo(response.data.data)
   }
 
@@ -49,7 +53,6 @@ const TableThree = () => {
       console.log(error)
     }
   }
-
 
   return (
     <div className="rounded-sm border border-stroke bg-white px-5 pt-6 pb-2.5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
@@ -150,18 +153,16 @@ const TableThree = () => {
               </tr>
             ))}
           </tbody>
-          <div className="flex justify-end mt-4">
+        </table>
+        <div className="flex justify-end mt-4">
             <Pagination
               currentPage={currentPage}
               totalPages={info.totalPages}
               onPageChange={handlePageChange}
             />
           </div>
-        </table>
       </div>
-
       <div>
-  
       {isModalOpen && (
   <div
     className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50"
