@@ -83,20 +83,8 @@ const options: ApexOptions = {
   },
   xaxis: {
     type: 'category',
-    categories: [
-      'Sep',
-      'Oct',
-      'Nov',
-      'Dec',
-      'Jan',
-      'Feb',
-      'Mar',
-      'Apr',
-      'May',
-      'Jun',
-      'Jul',
-      'Aug',
-    ],
+    categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+  ,
     axisBorder: {
       show: false,
     },
@@ -111,7 +99,7 @@ const options: ApexOptions = {
       },
     },
     min: 0,
-    max: 100,
+    max: 500,
   },
 };
 
@@ -122,18 +110,21 @@ interface ChartOneState {
   }[];
 }
 
-const ChartOne: React.FC = () => {
+const ChartOne: React.FC = ({paymentData}:any) => {
+
+  console.log(paymentData,'===>>paymentData')
+
   const [state, setState] = useState<ChartOneState>({
     series: [
       {
-        name: 'Product One',
-        data: [23, 11, 22, 27, 13, 22, 37, 21, 44, 22, 30, 45],
+        name: 'Payment',
+        data:paymentData.length > 0 && paymentData,
       },
-
-      {
-        name: 'Product Two',
-        data: [30, 25, 36, 30, 45, 35, 64, 52, 59, 36, 39, 51],
-      },
+  
+      // {
+      //   name: 'Product Two',
+      //   data: [30, 25, 36, 30, 45, 35, 64, 52, 59, 36, 39, 51],
+      // },
     ],
   });
 

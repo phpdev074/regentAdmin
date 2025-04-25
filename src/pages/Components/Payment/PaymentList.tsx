@@ -23,7 +23,7 @@ function PaymentList() {
 
     const getUserData = async (page = 1) => {
         const response = await getPaymetList(`?limit=10&page=${page}`)
-        //   console.log(response.data.data,'===>>response.data.data')
+          console.log(response.data.data,'===>>response.data.data')
         setInfo(response.data.data)
     }
 
@@ -65,9 +65,12 @@ function PaymentList() {
                             <tr key={key}>
                                 <td className="border-b border-[#eee] py-5 px-4 pl-9 dark:border-strokedark xl:pl-11">
                                     <h5 className="font-medium text-black dark:text-white">
-                                        {packageItem?.userId?.name ?? 'N/A'}
+                                        {/* {packageItem?.userId?.name ?? 'N/A'} */}
+                                        <p className="text-black dark:text-white">
+                                        {packageItem?.userId?.name}
+                                    </p>
                                     </h5>
-                                    {/* <p className="text-sm">${packageItem?.name}</p> */}
+                                    {/* <p className="text-sm">${packageItem?.userId?.name ?? 'N/A'}</p> */}
                                 </td>
 
 
