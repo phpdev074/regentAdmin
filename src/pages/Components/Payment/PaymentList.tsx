@@ -181,46 +181,30 @@ function PaymentList() {
                                     <p className="font-semibold">Email</p>
                                     <p className="text-gray-600 dark:text-gray-300">{data.userId.email}</p>
                                 </div>
-                                <div className="text-center">
+                                {/* <div className="text-center">
                                     <p className="font-semibold">Mobile Number</p>
                                     <p className="text-gray-600 dark:text-gray-300">{data.userId.mobileNumber}</p>
-                                </div>
+                                </div> */}
                                 <div className="text-center">
                                     <p className="font-semibold">Amount Paid</p>
                                     <p className="text-gray-600 dark:text-gray-300">${data.amount}</p>
                                 </div>
-                                <div className="text-center">
-                                    <p className="font-semibold">Payment Method</p>
-                                    <p className="text-gray-600 dark:text-gray-300">{data.paymentMethod}</p>
-                                </div>
+                                
                                 <div className="text-center">
                                     <p className="font-semibold">Payment Date</p>
                                     <p className="text-gray-600 dark:text-gray-300">
-                                        {new Date(data.paymentDate).toLocaleString()}
+                                    {new Date(data.paymentDate).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
+
                                     </p>
                                 </div>
-                                <div className="text-center">
-                                    <p className="font-semibold">Business Name</p>
-                                    <p className="text-gray-600 dark:text-gray-300">{data.userId.businessName}</p>
-                                </div>
-                                <div className="text-center">
-                                    <p className="font-semibold">Business Email</p>
-                                    <p className="text-gray-600 dark:text-gray-300">{data.userId.businessEmail}</p>
-                                </div>
-                                <div className="text-center">
-                                    <p className="font-semibold">Business Address</p>
-                                    <p className="text-gray-600 dark:text-gray-300">{data.userId.businessAddress}</p>
-                                </div>
-                                <div className="text-center">
-                                    <p className="font-semibold">Business Contact</p>
-                                    <p className="text-gray-600 dark:text-gray-300">{data.userId.businessContect}</p>
-                                </div>
+                                
+                                
                             </div>
 
                             {/* User Image */}
-                            <div className="flex justify-center mb-6">
+                            {/* <div className="flex justify-center mb-6">
                                 <img src={data.userId.userImage} alt="User QR Code" className="w-24 h-24 rounded-full" />
-                            </div>
+                            </div> */}
 
                             {/* Close Button */}
                             <div className="flex justify-center">
