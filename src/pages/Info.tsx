@@ -15,20 +15,20 @@ interface BusinessData {
   location: {
     coordinates: [number, number]; 
   };
+  userId?: { name: string };
 }
 
 const Info: React.FC = () => {
   const [searchParams] = useSearchParams();
   const id = searchParams.get("id");
-
   const [infoData, setInfoData] = useState<BusinessData | null>(null);
 
   const [mapCenter, setMapCenter] = useState({
-    lat: 30.7046, // Default: Punjab Coordinates
-    lng: 76.7179,  // Default: Punjab Coordinates
+    lat: 30.7046, 
+    lng: 76.7179,   
   });
 
-  const [markerVisible, setMarkerVisible] = useState(false); // Control marker visibility
+  const [markerVisible, setMarkerVisible] = useState(false); 
 
   useEffect(() => {
     if (id) {
@@ -40,8 +40,9 @@ const Info: React.FC = () => {
     try {
       const response = await getUserInfoMap(id);
       const data = response?.data?.data;
+      
       setInfoData(data);
-
+      
       const coordinates = data?.location?.coordinates;
 
       if (coordinates && coordinates.length === 2) {
@@ -69,8 +70,8 @@ const Info: React.FC = () => {
         />
 
         <h2 className="text-2xl mt-3 mb-1 font-semibold">{infoData.businessName}</h2>
-        <p className="text-sm text-gray-600 mb-2">Owner at {infoData.name}</p>
-
+        <p className="text-sm text-gray-600 mb-2">Owner at {infoData.userId?.name}</p>
+         
         <div className="text-left space-y-2 my-4">
           {infoData.website && (
             <div className="flex items-center text-sm">

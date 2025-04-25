@@ -1,5 +1,5 @@
 import { ApexOptions } from 'apexcharts';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import ReactApexChart from 'react-apexcharts';
 
 const options: ApexOptions = {
@@ -112,13 +112,15 @@ interface ChartOneState {
 
 const ChartOne: React.FC = ({paymentData}:any) => {
 
-  console.log(paymentData,'===>>paymentData')
+  useEffect(()=>{
+  console.log(paymentData.length > 0 && paymentData,"===>>>")
+  },[paymentData])
 
   const [state, setState] = useState<ChartOneState>({
     series: [
       {
         name: 'Payment',
-        data:paymentData.length > 0 && paymentData,
+        data:[30, 25, 36, 30, 45, 35, 64, 52, 59, 36, 39, 51],
       },
   
       // {

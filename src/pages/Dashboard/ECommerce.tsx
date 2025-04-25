@@ -27,6 +27,7 @@ const ECommerce: React.FC = () => {
     const payData = response.data.data.data
     const data = payData.map((e:any)=>e.amount)
     setPaymentData(data)
+    console.log(data,"data===>>>")
   }
 
   useEffect(()=>{
