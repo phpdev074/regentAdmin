@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { GoogleMap, LoadScript, MarkerF } from "@react-google-maps/api";
 import { getUserInfoMap } from "../api/helper";
-import { FiGlobe, FiPhone, FiArchive } from 'react-icons/fi';
+import { FiGlobe, FiPhone, FiLinkedin } from "react-icons/fi";
 
 interface BusinessData {
   userImage?: string;
@@ -53,10 +53,11 @@ const Info: React.FC = () => {
 
   if (!infoData)
     return <div className="text-center text-lg font-semibold">Loading...</div>;
-  console.log(infoData, "infoData====");
+
   return (
     <div className="flex items-center justify-center min-h-screen px-4 py-6">
-      <div className="w-full max-w-sm  rounded-2xl text-center">
+      <div className="w-full max-w-sm bg-white rounded-2xl text-center shadow">
+        {/* Profile Image */}
         <div className="flex justify-center mt-6">
           <img
             src={
@@ -68,37 +69,48 @@ const Info: React.FC = () => {
           />
         </div>
 
+        {/* Name + Business */}
         <h2 className="text-xl font-semibold mt-3">
           {infoData.name || "Unknown Name"}
         </h2>
         <p className="text-sm text-gray-600 mb-4">
           Owner at {infoData.userId?.name || "Unknown Business"}
         </p>
-        <div className="px-[17px] mb-[42px]">
-          <div className="border border-[#000000] rounded-[8px] overflow-hidden w-full text-[14px] text-[#000000] font-medium ">
-          
-            {infoData?.website && (
-              <div className="flex items-center px-[12px] py-[12px] border-b border-[#000000]">
-                 <FiGlobe className="mr-[12px]" size={18}/>
-                <span className="truncate">{infoData?.website}</span>
-              </div>
-            )}
 
-            <div className="flex items-center px-[12px] py-[12px] border-b border-[#000000]">
-             <FiPhone className="mr-[12px]" size={18}/>
-              <span className="truncate">{infoData?.userId?.mobileNumber}</span>
+        {/* Info Boxes */}
+        <div className="space-y-3 px-6 mb-6">
+          {infoData?.website && (
+            <div className="flex items-center px-3 py-3 border border-black rounded-md">
+              <FiGlobe className="mr-3" size={18} />
+              <span className="truncate">{infoData?.website}</span>
             </div>
+          )}
 
-            {infoData?.businessLic && (
-              <div className="flex items-center px-[12px] py-[12px]">
-             <LicenseIcon className="mr-[12px]" />
-                <span className="truncate">Lic. #{infoData?.businessLic}</span>
-              </div>
-            )}
-          </div>
+          {infoData?.linkedin && (
+            <div className="flex items-center px-3 py-3 border border-black rounded-md">
+              <FiLinkedin className="mr-3" size={18} />
+              <span className="truncate">{infoData?.linkedin}</span>
+            </div>
+          )}
+
+          {infoData?.mobileNumber && (
+            <div className="flex items-center px-3 py-3 border border-black rounded-md">
+              <FiPhone className="mr-3" size={18} />
+              <span className="truncate">{infoData?.mobileNumber}</span>
+            </div>
+          )}
+
+          {infoData?.businessLic && (
+            <div className="flex items-center px-3 py-3 border border-black rounded-md">
+              <LicenseIcon className="mr-3" />
+              <span className="truncate">Lic. #{infoData?.businessLic}</span>
+            </div>
+          )}
         </div>
-        <div className="my-4 mx-4 h-48 rounded-2xl overflow-hidden border border-gray-300 border border-[#000000] rounded-[8px]">
-          <LoadScript googleMapsApiKey="AIzaSyBTgjMWeFMxL5oe-KFnKts3YGBZJlEC6eM">
+
+        {/* Map */}
+        <div className="mx-6 h-44 rounded-lg overflow-hidden border border-black">
+          <LoadScript googleMapsApiKey="YOUR_GOOGLE_MAP_KEY">
             <GoogleMap
               mapContainerStyle={{ width: "100%", height: "100%" }}
               zoom={14}
@@ -109,16 +121,23 @@ const Info: React.FC = () => {
           </LoadScript>
         </div>
 
-        <p className="text-sm text-gray-700 mb-6">
+        {/* Address */}
+        <p className="text-sm text-gray-700 mt-4 mb-6 px-4">
           {infoData.businessAddress || "No address available"}
         </p>
+
+        {/* Close Button */}
+        <button className="bg-black text-white px-6 py-2 rounded-md mb-6">
+          Close
+        </button>
       </div>
     </div>
   );
 };
 
 export default Info;
-const LicenseIcon = ({ className }) => (
+
+const LicenseIcon = ({ className }: { className?: string }) => (
   <svg
     className={className}
     width="20"
@@ -129,16 +148,10 @@ const LicenseIcon = ({ className }) => (
     strokeWidth="2"
     strokeLinecap="round"
     strokeLinejoin="round"
-    xmlns="http://www.w3.org/2000/svg"
   >
-    {/* Top rounded lines */}
     <rect x="7" y="3" width="10" height="2" rx="1" fill="currentColor" />
     <rect x="5" y="6" width="14" height="2" rx="1" fill="currentColor" />
-    
-    {/* Outer box */}
     <path d="M4 9H20L18.5 21H5.5L4 9Z" />
-
-    {/* Inner horizontal bar */}
     <rect x="10" y="14" width="4" height="2" rx="1" fill="currentColor" stroke="none" />
   </svg>
 );
