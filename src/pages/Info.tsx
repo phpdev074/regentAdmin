@@ -110,7 +110,7 @@ const Info: React.FC = () => {
 
         {/* Map */}
         <div className="mx-6 h-44 rounded-lg overflow-hidden border border-black">
-          <LoadScript googleMapsApiKey="YOUR_GOOGLE_MAP_KEY">
+          <LoadScript googleMapsApiKey="AIzaSyBTgjMWeFMxL5oe-KFnKts3YGBZJlEC6eM">
             <GoogleMap
               mapContainerStyle={{ width: "100%", height: "100%" }}
               zoom={14}
