@@ -13,6 +13,10 @@ interface BusinessData {
   mobileNumber?: string;
   businessLic?: string;
   businessAddress: string;
+  businessLogo?: string;
+  businessContect?: string;
+  businessEmail?: string;
+  industry?: string;
   location: {
     coordinates: [number, number];
   };
@@ -23,6 +27,8 @@ const Info: React.FC = () => {
   const [searchParams] = useSearchParams();
   const id = searchParams.get("id");
   const [infoData, setInfoData] = useState<BusinessData | null>(null);
+
+  console.log("==>infoData", infoData);
 
   const [mapCenter, setMapCenter] = useState({ lat: 30.7046, lng: 76.7179 });
   const [markerVisible, setMarkerVisible] = useState(false);
@@ -41,6 +47,7 @@ const Info: React.FC = () => {
 
       const coordinates = data?.location?.coordinates;
       if (coordinates?.length === 2) {
+        // coordinates[1] is latitude, coordinates[0] is longitude
         setMapCenter({ lat: coordinates[1], lng: coordinates[0] });
         setMarkerVisible(true);
       } else {
@@ -53,63 +60,64 @@ const Info: React.FC = () => {
 
   if (!infoData)
     return <div className="text-center text-lg font-semibold">Loading...</div>;
-
   return (
     <div className="flex items-center justify-center min-h-screen px-4 py-6">
-      <div className="w-full max-w-sm bg-white rounded-2xl text-center shadow">
+      <div className="w-full max-w-sm bg-white rounded-2xl text-center shadow-md">
         {/* Profile Image */}
         <div className="flex justify-center mt-6">
           <img
             src={
-              infoData?.userImage ||
+              infoData?.businessLogo ||
               "https://static-00.iconduck.com/assets.00/profile-default-icon-2048x2045-u3j7s5nj.png"
             }
             alt="Profile"
-            className="w-20 h-20 rounded-full border-2 border-gray-300"
+            className="w-20 h-20 rounded-full border-2 border-gray-300 object-cover"
           />
         </div>
 
         {/* Name + Business */}
         <h2 className="text-xl font-semibold mt-3">
-          {infoData.name || "Unknown Name"}
+          {infoData.businessName || "Unknown Name"}
         </h2>
         <p className="text-sm text-gray-600 mb-4">
-          Owner at {infoData.userId?.name || "Unknown Business"}
+          Owner at {infoData?.userId?.name || "Unknown Business"}
         </p>
 
         {/* Info Boxes */}
-        <div className="space-y-3 px-6 mb-6">
-          {infoData?.website && (
-            <div className="flex items-center px-3 py-3 border border-black rounded-md">
-              <FiGlobe className="mr-3" size={18} />
-              <span className="truncate">{infoData?.website}</span>
-            </div>
-          )}
+        <div className="px-6 mb-6">
+          <div className="border border-black rounded-md overflow-hidden">
+            {infoData?.website && (
+              <div className="flex items-center px-3 py-2 border-b border-black">
+                <FiGlobe className="mr-3 text-gray-800" size={18} />
+                <span className="truncate">{infoData?.website}</span>
+              </div>
+            )}
 
-          {infoData?.linkedin && (
-            <div className="flex items-center px-3 py-3 border border-black rounded-md">
-              <FiLinkedin className="mr-3" size={18} />
-              <span className="truncate">{infoData?.linkedin}</span>
-            </div>
-          )}
+            {infoData?.linkedin && (
+              <div className="flex items-center px-3 py-2 border-b border-black">
+                <FiLinkedin className="mr-3 text-gray-800" size={18} />
+                <span className="truncate">{infoData?.linkedin}</span>
+              </div>
+            )}
 
-          {infoData?.mobileNumber && (
-            <div className="flex items-center px-3 py-3 border border-black rounded-md">
-              <FiPhone className="mr-3" size={18} />
-              <span className="truncate">{infoData?.mobileNumber}</span>
-            </div>
-          )}
+            {infoData?.businessContect && (
+              <div className="flex items-center px-3 py-2 border-b border-black">
+                <FiPhone className="mr-3 text-gray-800" size={18} />
+                <span className="truncate">{infoData?.businessContect}</span>
+              </div>
+            )}
 
-          {infoData?.businessLic && (
-            <div className="flex items-center px-3 py-3 border border-black rounded-md">
-              <LicenseIcon className="mr-3" />
-              <span className="truncate">Lic. #{infoData?.businessLic}</span>
-            </div>
-          )}
+            {infoData?.businessLic && (
+              <div className="flex items-center px-3 py-2">
+                <LicenseIcon className="mr-3 text-gray-800" />
+                <span className="truncate">Lic. #{infoData?.businessLic}</span>
+              </div>
+            )}
+          </div>
         </div>
 
         {/* Map */}
-        <div className="mx-6 h-44 rounded-lg overflow-hidden border border-black">
+        <div className="mx-6 h-40 rounded-lg overflow-hidden border">
           <LoadScript googleMapsApiKey="AIzaSyBTgjMWeFMxL5oe-KFnKts3YGBZJlEC6eM">
             <GoogleMap
               mapContainerStyle={{ width: "100%", height: "100%" }}
@@ -127,9 +135,9 @@ const Info: React.FC = () => {
         </p>
 
         {/* Close Button */}
-        <button className="bg-black text-white px-6 py-2 rounded-md mb-6">
+        {/* <button className="bg-black text-white px-6 py-1 rounded-md mb-4 text-sm">
           Close
-        </button>
+        </button> */}
       </div>
     </div>
   );
@@ -152,6 +160,14 @@ const LicenseIcon = ({ className }: { className?: string }) => (
     <rect x="7" y="3" width="10" height="2" rx="1" fill="currentColor" />
     <rect x="5" y="6" width="14" height="2" rx="1" fill="currentColor" />
     <path d="M4 9H20L18.5 21H5.5L4 9Z" />
-    <rect x="10" y="14" width="4" height="2" rx="1" fill="currentColor" stroke="none" />
+    <rect
+      x="10"
+      y="14"
+      width="4"
+      height="2"
+      rx="1"
+      fill="currentColor"
+      stroke="none"
+    />
   </svg>
 );
