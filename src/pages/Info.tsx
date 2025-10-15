@@ -116,7 +116,6 @@ const Info: React.FC = () => {
           </div>
         </div>
 
-        {/* Map */}
         <div className="mx-6 h-40 rounded-lg overflow-hidden border">
           <LoadScript googleMapsApiKey="AIzaSyAgxLFYeAyJJ7c8ftgiDb9f_WUfpxyePNk">
             <GoogleMap
