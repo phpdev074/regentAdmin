@@ -68,7 +68,7 @@ const Info: React.FC = () => {
           <img
             src={
               infoData?.businessLogo ||
-              "https://static-00.iconduck.com/assets.00/profile-default-icon-2048x2045-u3j7s5nj.png"
+              "https://reagent.s3.us-west-2.amazonaws.com/64533be8-1c89-4309-83d7-97bd1db9e3c7_userimage.jpg"
             }
             alt="Profile"
             className="w-20 h-20 rounded-full border-2 border-gray-300 object-cover"
@@ -118,7 +118,7 @@ const Info: React.FC = () => {
 
         {/* Map */}
         <div className="mx-6 h-40 rounded-lg overflow-hidden border">
-          <LoadScript googleMapsApiKey="AIzaSyBTgjMWeFMxL5oe-KFnKts3YGBZJlEC6eM">
+          <LoadScript googleMapsApiKey="AIzaSyAgxLFYeAyJJ7c8ftgiDb9f_WUfpxyePNk">
             <GoogleMap
               mapContainerStyle={{ width: "100%", height: "100%" }}
               zoom={14}
