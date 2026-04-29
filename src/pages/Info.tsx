@@ -77,10 +77,10 @@ const Info: React.FC = () => {
 
         {/* Name + Business */}
         <h2 className="text-xl font-semibold mt-3">
-          {infoData.businessName || "Unknown Name"}
+          {infoData?.businessName || "Unknown Business"} 
         </h2>
         <p className="text-sm text-gray-600 mb-4">
-          Owner at {infoData?.userId?.name || "Unknown Business"}
+       {infoData?.userId?.name || "Unknown Name"}  Owner at {infoData?.businessName || "Unknown Business"} 
         </p>
 
         {/* Info Boxes */}
