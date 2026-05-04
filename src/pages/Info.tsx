@@ -65,83 +65,87 @@ const Info: React.FC = () => {
       <style>
         {`
           @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap');
+          html, body {
+            margin: 0;
+            padding: 0;
+            background-color: transparent !important;
+          }
         `}
       </style>
       <div
-        className="flex items-center justify-center min-h-screen px-4 py-6"
-        style={{ fontFamily: "'Montserrat'" }}
+        className="w-full min-h-screen text-center px-2 py-4"
+        style={{ fontFamily: "'Montserrat', sans-serif" }}
       >
-        <div className="w-full max-w-[420px] bg-white rounded-[24px] border border-gray-200 text-center pb-4 pt-4 shadow-sm">
-          {/* Profile Image */}
-          <div className="flex justify-center mt-6">
-            <img
-              src={
-                infoData?.businessLogo ||
-                "https://reagent.s3.us-west-2.amazonaws.com/64533be8-1c89-4309-83d7-97bd1db9e3c7_userimage.jpg"
-              }
-              alt="Profile"
-              className="w-[96px] h-[96px] rounded-full object-cover"
-            />
-          </div>
-
-          {/* Name + Business */}
-          <h2 className="text-[28px] font-[500] text-black mt-5">
-            {infoData?.userId?.name || "Unknown Name"}
-          </h2>
-          <p className="text-[18px] text-[#222] font-[400] mt-1 mb-8">
-            Owner at {infoData?.businessName || "Unknown Business"}
-          </p>
-
-          {/* Info Boxes */}
-          <div className="px-6 mb-8">
-            <div className="border border-black rounded-[8px] overflow-hidden flex flex-col divide-y divide-black">
-              {infoData?.website && (
-                <div className="flex items-center px-5 py-[14px] bg-white">
-                  <FiGlobe className="mr-5 text-black shrink-0" size={24} strokeWidth={2} />
-                  <span className="truncate text-[16px] font-[500] text-black">{infoData?.website}</span>
-                </div>
-              )}
-
-              {infoData?.linkedin && (
-                <div className="flex items-center px-5 py-[14px] bg-white">
-                  <FiGlobe className="mr-5 text-black shrink-0" size={24} strokeWidth={2} />
-                  <span className="truncate text-[16px] font-[500] text-black">{infoData?.linkedin}</span>
-                </div>
-              )}
-
-              {infoData?.businessContect && (
-                <div className="flex items-center px-5 py-[14px] bg-white">
-                  <FiPhone className="mr-5 text-black shrink-0" size={24} strokeWidth={2} />
-                  <span className="truncate text-[16px] font-[500] text-black">{infoData?.businessContect}</span>
-                </div>
-              )}
-
-              {infoData?.businessLic && (
-                <div className="flex items-center px-5 py-[14px] bg-white">
-                  <LicenseIcon className="mr-5 text-black shrink-0" />
-                  <span className="truncate text-[16px] font-[500] text-black">Lic. #{infoData?.businessLic}</span>
-                </div>
-              )}
-            </div>
-          </div>
-
-          <div className="mx-6 h-[200px] rounded-[16px] overflow-hidden border border-gray-500">
-            <LoadScript googleMapsApiKey="AIzaSyAgxLFYeAyJJ7c8ftgiDb9f_WUfpxyePNk">
-              <GoogleMap
-                mapContainerStyle={{ width: "100%", height: "100%" }}
-                zoom={14}
-                center={mapCenter}
-              >
-                {markerVisible && <MarkerF position={mapCenter} />}
-              </GoogleMap>
-            </LoadScript>
-          </div>
-
-          {/* Address */}
-          <p className="text-[16px] text-[#222] mt-5 mb-8 px-6 font-[400]">
-            {infoData.businessAddress || "No address available"}
-          </p>
+        {/* Profile Image */}
+        <div className="flex justify-center mt-2">
+          <img
+            src={
+              infoData?.businessLogo ||
+              "https://reagent.s3.us-west-2.amazonaws.com/64533be8-1c89-4309-83d7-97bd1db9e3c7_userimage.jpg"
+            }
+            alt="Profile"
+            className="w-[96px] h-[96px] rounded-full object-cover"
+          />
         </div>
+
+        {/* Name + Business */}
+        <h2 className="text-[26px] font-[500] text-black mt-4 px-2">
+          {infoData?.userId?.name || "Unknown Name"}
+        </h2>
+        <p className="text-[17px] text-[#333] font-[400] mt-1 mb-6 px-2">
+          Owner at {infoData?.businessName || "Unknown Business"}
+        </p>
+
+        {/* Info Boxes */}
+        <div className="mb-6 px-2">
+          <div className="border border-black rounded-[8px] overflow-hidden flex flex-col divide-y divide-black bg-white">
+            {infoData?.website && (
+              <div className="flex items-center px-4 py-3">
+                <FiGlobe className="mr-4 text-black shrink-0" size={22} strokeWidth={2} />
+                <span className="truncate text-[15px] font-[500] text-black">{infoData?.website}</span>
+              </div>
+            )}
+
+            {infoData?.linkedin && (
+              <div className="flex items-center px-4 py-3">
+                <FiGlobe className="mr-4 text-black shrink-0" size={22} strokeWidth={2} />
+                <span className="truncate text-[15px] font-[500] text-black">{infoData?.linkedin}</span>
+              </div>
+            )}
+
+            {infoData?.businessContect && (
+              <div className="flex items-center px-4 py-3">
+                <FiPhone className="mr-4 text-black shrink-0" size={22} strokeWidth={2} />
+                <span className="truncate text-[15px] font-[500] text-black">{infoData?.businessContect}</span>
+              </div>
+            )}
+
+            {infoData?.businessLic && (
+              <div className="flex items-center px-4 py-3">
+                <LicenseIcon className="mr-4 text-black shrink-0" />
+                <span className="truncate text-[15px] font-[500] text-black">Lic. #{infoData?.businessLic}</span>
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* Map */}
+        <div className="h-[200px] rounded-[16px] overflow-hidden border border-gray-500 mb-4 mx-2">
+          <LoadScript googleMapsApiKey="AIzaSyAgxLFYeAyJJ7c8ftgiDb9f_WUfpxyePNk">
+            <GoogleMap
+              mapContainerStyle={{ width: "100%", height: "100%" }}
+              zoom={14}
+              center={mapCenter}
+            >
+              {markerVisible && <MarkerF position={mapCenter} />}
+            </GoogleMap>
+          </LoadScript>
+        </div>
+
+        {/* Address */}
+        <p className="text-[15px] text-[#333] mt-2 mb-6 px-4 font-[400]">
+          {infoData.businessAddress || "No address available"}
+        </p>
       </div>
     </>
   );
